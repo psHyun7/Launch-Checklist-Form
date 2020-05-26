@@ -33,11 +33,11 @@ window.addEventListener("load", function() {
          `
       });
    });
-   let letsLaunch = false;
    // submission button
    let submitButton = document.getElementById("formSubmit");
    // event listener for submission button
    submitButton.addEventListener("click", function(event) {
+      let letsLaunch = false;
       // DOM objects for form field
       let pilotName = document.querySelector("input[name=pilotName]");
       let copilotName = document.querySelector("input[name=copilotName]");
@@ -54,7 +54,7 @@ window.addEventListener("load", function() {
       } else {
          letsLaunch = true;
       }
-
+      
       //DOM objects for launchStatusCheck fields
       let pilotStatus = document.getElementById("pilotStatus");
       let copilotStatus = document.getElementById("copilotStatus");
@@ -63,10 +63,13 @@ window.addEventListener("load", function() {
 
       let faultyItemList = document.getElementById("faultyItems");
       let launchStatus = document.getElementById("launchStatus");
-
+      
       // change faultyItems accordingly
       if (letsLaunch) {
          let error = false;
+         // Pilot and Co-Pilot are ALWAYS Ready!!
+         pilotStatus.innerHTML = `Pilot ${pilotName.value} is ready for launch`;
+         copilotStatus.innerHTML = `Co-pilot ${copilotName.value} is ready for launch`
          // check for fuel level
          if (parseInt(fuelLevel.value) < 10000) {
             fuelStatus.innerHTML = "Fuel level too low for launch";
@@ -85,13 +88,17 @@ window.addEventListener("load", function() {
          if (error) {
             faultyItemList.style.visibility = "visible";
             launchStatus.style.color = "red"
-            launchStatus.innerHTML = "Shuttle not ready for launch";
+            launchStatus.innerHTML = "Shuttle Not Ready for Launch";
          } else {
             faultyItemList.style.visibility = "hidden";
             launchStatus.style.color = "green";
-            launchStatus.innerHTML = "Shuttle ready for launch";
+            launchStatus.innerHTML = "Shuttle Ready for Launch";
             alert("3, 2, 1, BLAST OFF!")
          }
+      } else {
+         faultyItemList.style.visibility = "hidden";
+         launchStatus.style.color = "black";
+         launchStatus.innerHTML = "Awaiting Information Before Launch";
       }
       
       // last preventDefault to stop sending form to server (temporarily as there is no destination path)
